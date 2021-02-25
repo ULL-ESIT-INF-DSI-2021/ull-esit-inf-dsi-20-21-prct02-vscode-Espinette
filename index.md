@@ -39,57 +39,113 @@ Para estar seguro de que estamos bien conectado a nuestra máquina virtual, vemo
 #### 3. Sesion colaborativa con Visual Studio Live
 
 
+Visual Studio además nos permite realizar trabajos colaborativos en tiempo rea, esto es posible gracias a la herramienta Visual Studio Live Share. Para esto debemos instalar la extensión **Live Share Extension Pack**, esta estrá disponible en el mismo lugar donde nos instalamos la extensión para poder conectarnos por SSH. Hay que recordar que todas las extensiones que se instalen deben realizarce estando conectados a la máquina virtual, ya que estas extensiones solo se instalán es ese visual. Si quisieramos instalar esa extensión el Visual de nuestra máquina normal, debemos hacerlo fuera de conexión de la máquina remota.
 
+Ya con la extensión instalada probamos la extensión creeando un archivo cualquiera, y en la parte inferior izquierda de la pestaña encontraremos un boton que dice *live share* y nos pedirá que para poder compartir en live un proyecto enlacemos nuestra cuenta de visual con la del github para que esten sincronizadas, una vez realizado veremos que abajo a la izquierda tendremos un apartado llamado session details, donde desde ahí nos dejará ver los detalles de la sesión, iniciar una llamada de audio con los participantes, invitar a nuevos miembros.... 
 
+Podremos obtener mas información sobre la documentación de Visual Studio Live Share en el siguiente [enlace](https://docs.microsoft.com/en-us/visualstudio/liveshare/).
 
+#### 4. Nuestro primer proyecto TypeScript
 
+Primero debemos instalar una serie de extension como ya hemos hecho con anterioridad, por un lado tenemos **VIM** que es un editor de texto que todos conocerán ya y **ESLint** que sirve para realizar comprobaciones sobre fichero con código fuente en JavaScript y TypeScript
 
+Recuerden que siempre estamos conectado a nuestra máquina remota desde visual, ahora abriremos una nueva terminal e instalaremos el compilador de Typrscript, ejecutando:
 
+```bash
+[~()]$npm install --global typescript
 
+added 1 package, and audited 2 packages in 2s
 
-
-
-
-
-
-
-
-
-
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct02-vscode-Espinette/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+found 0 vulnerabilities
+[~()]$tsc --version
+Version 4.1.3
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Ahora crearemos los ficheros y directorios necesarios:
 
-### Jekyll Themes
+```bash
+  # Observamos si estamos en la carpeta personal de nuestra máquina remota
+  
+  [~()]$pwd
+  /home/usuario
+  
+  # Creamos el directorio de nuestro programa "Hello world" y nos ubicamos en el mismo
+  
+  [~()]$mkdir hello-world
+  [~()]$cd hello-world/
+  
+  # A partir de este comando se nos crea un fichero denominado 'package.json' en el que podemos observar que su contenido se encontrarán las depenedencias de desarrollo y ejecutará el proyecto a modo de paquetes de los que depende el proyecto actual
+  
+  [~/hello-world()]$npm init --yes
+  Wrote to /home/usuario/hello-world/package.json:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ULL-ESIT-INF-DSI-2021/ull-esit-inf-dsi-20-21-prct02-vscode-Espinette/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+  {
+    "name": "hello-world",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
 
-### Support or Contact
+  # Mostramos el contenido del directoria actual
+  
+  [~/hello-world()]$ls -lrtha
+  total 12K
+  drwxr-xr-x 26 usuario usuario 4,0K feb  9 18:46 ..
+  drwxrwxr-x  2 usuario usuario 4,0K feb  9 18:48 .
+  -rw-rw-r--  1 usuario usuario  225 feb  9 18:48 package.json
+  [~/hello-world()]$
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```
+
+Ahora abrimos el directorio `Hello-world`creado en Vscode donde podremos ver el contenido de este. Para esto vamos al menu File y seleccionamos la opcion Open folder..., donde se nos mostrarán todas las carpetas seleccionando la deseada.
+
+Ya abierto el directorio crearemos un nuevo fichero dentro de este denominado **tsconfig.json** donde se especificarán las opciones del compilador TypeScript. El fichero deber indluir:
+
+```bash
+[~/hello-world()]$cat tsconfig.json 
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "CommonJS"
+  }
+}
+```
+
+Ahora añadiremos un fichero de códgio de TypeScripyt, pero antes debemos realizar los siguientes pasos desde la carpeta de nuestro trabajo, en este caso el directorio hello-world:
+
+```bash
+  #Creamos el directorio 'src', que contendrá el código fuente escrito en TypeScript
+  [~/hello-world()]$mkdir src
+  
+  # Nos movemos al directorio 'src'
+  [~/hello-world()]$cd src
+  
+  # Creamos el fichero 'index.ts' vacío
+  [~/hello-world/src()]$touch index.ts
+```
+
+Abriremos el fichero index.ts creado y le añadimos estás lineas:
+
+```bash
+let myString: string = "Hola Mundo";
+console.log(myString);
+```
+Y en la terminal ejecutamos el comando `tsc`, esto crerá un directorio dist, que tendrá un fichero index.js, si mostramos el contenido de ese fichero será el mismo que el de tipo TypeScript pero traducido a JavaScript. Ahora ejecutamos el código Javascript:
+
+```bash
+[~/hello-world()]$node dist/index.js
+Hola Mundo
+```
+
+### CONLCUSIÓN
+
+En esta práctica nos hemos familiarizado a usar Visul Studio Code, ya que sereá el entorno a usar en futuras prácticas, además hemos realizado nuestro primer código en TypeScript y JavaScript, dos lenguajes en cada práctica iremos adquiriendo un mayor conocimiento del mismo. Ta hemos terminado con las prácticas dedicadas a configurar el entorno de trabajo, las prácticas venideras estarán más enfocadas en la elaboración de ejercicios.
+
