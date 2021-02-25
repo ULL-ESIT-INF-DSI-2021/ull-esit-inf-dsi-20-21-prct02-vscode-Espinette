@@ -5,7 +5,7 @@
 
 ### INTRODUCCIÓN
 
-En esta práctica aprenderemos distintas funcionalidas del **Visual Studio Code**, instalando y configurandolo para realizar futuro trabajos, donde nos conectaremos por `ssh`a nuestra máqina virtuales, además añadiremos varias extensiones entre ella una que nos permita crear sesiones colaborativas y realizaremos nuestro prtimer pequeño programa en TypeScript.
+En esta práctica aprenderemos distintas funcionalidas del **Visual Studio Code**, instalando y configurandolo para realizar futuro trabajos, donde nos conectaremos por `ssh` a nuestra máqina virtuales, además añadiremos varias extensiones entre ella una que nos permita crear sesiones colaborativas y realizaremos nuestro prtimer pequeño programa en TypeScript.
 
 ### ELABORACIÓN POR PASOS 
 
